@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Converter</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea{
+            width: 95%;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #convertedCode {
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: left;
+            overflow: auto; /* Add a scroll bar for overflow content */
+            max-height: 600px; /* Adjust the maximum height as needed */
+        }
+
+      
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Code Converter</h1>
+        <select id="sourceLanguage" name="sourceLanguage">
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="java">Java</option>
+            <option value="ruby">Ruby</option>
+            <option value="csharp">C#</option>
+            <option value="php">PHP</option>
+            <option value="go">Go</option>
+            <option value="swift">Swift</option>
+        </select>
+        <select id="targetLanguage" name="targetLanguage">
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="java">Java</option>
+            <option value="ruby">Ruby</option>
+            <option value="csharp">C#</option>
+            <option value="php">PHP</option>
+            <option value="go">Go</option>
+            <option value="swift">Swift</option>
+        </select>
+        <textarea id="codeInput" rows="10" placeholder="Enter code..."></textarea>
+        <button id="convertButton">Convert Code</button>
+        <div id="convertedCode"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const convertButton = document.getElementById("convertButton");
+            const codeInput = document.getElementById("codeInput");
+            const convertedCode = document.getElementById("convertedCode");
+            const sourceLanguageSelect = document.getElementById("sourceLanguage");
+            const targetLanguageSelect = document.getElementById("targetLanguage");
+        
+            convertButton.addEventListener("click", () => {
+                const code = codeInput.value;
+                const sourceLanguage = sourceLanguageSelect.value;
+                const targetLanguage = targetLanguageSelect.value;
+        
+                // Make an API request to the backend to convert the code
+                fetch(`https://chotudambale123.pythonanywhere.com/convert-code?code=${encodeURIComponent(code)}&source_language=${sourceLanguage}&target_language=${targetLanguage}`)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then((data) => {
+                        convertedCode.innerText = data; // Display the translated code directly without JSON
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        convertedCode.innerText = "An error occurred.";
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
